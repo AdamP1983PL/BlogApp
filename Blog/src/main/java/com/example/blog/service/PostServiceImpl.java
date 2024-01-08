@@ -1,6 +1,7 @@
 package com.example.blog.service;
 
 import com.example.blog.dto.PostDto;
+import com.example.blog.entity.Post;
 import com.example.blog.mapper.PostMapper;
 import com.example.blog.repository.PostRepository;
 import lombok.AllArgsConstructor;
@@ -21,5 +22,11 @@ public class PostServiceImpl implements PostService{
         return postRepository.findAll().stream()
                 .map(postMapper::mapToPostDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void createPost(PostDto postDto) {
+        Post post = postMapper.mapToPost(postDto);
+        postRepository.save(post);
     }
 }
