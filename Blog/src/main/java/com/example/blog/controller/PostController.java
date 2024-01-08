@@ -36,14 +36,15 @@ public class PostController {
     }
 
     @PostMapping("/admin/posts")
-    public String createPost(@ModelAttribute PostDto postDto) {
+    public String createPost(@Valid @ModelAttribute("post") PostDto postDto, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("post", postDto);
+            return "admin/create_post";
+        }
         postDto.setUrl(urlCreator.getUrl(postDto.getTitle()));
         postService.createPost(postDto);
         return "redirect:/admin/posts";
     }
-
-
-
 
 
 }
